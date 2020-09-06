@@ -38,7 +38,7 @@ class Trie:
     def find_words(self, letters: list):
         valid_words = set()
         search_candidate = []
-        letters_remaining = letters
+        letters_remaining = copy(letters)
 
         def search(v):
             if v.eow and ''.join(search_candidate) not in valid_words:
@@ -54,6 +54,22 @@ class Trie:
 
         search(self.root)
         return valid_words
+
+    def get_lexicon(self):
+        lexicon = set()
+        search_candidate = []
+
+        def search(v):
+            if v.eow and ''.join(search_candidate) not in lexicon:
+                lexicon.add(''.join(search_candidate))
+
+            for l, w in v.children.items():
+                search_candidate.append(l)
+                search(w)
+                del search_candidate[-1]
+
+        search(self.root)
+        return lexicon
 
     def __contains__(self, word: str):
         word = list(word)
