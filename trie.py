@@ -44,7 +44,7 @@ class Trie:
             if v.eow and ''.join(search_candidate) not in valid_words:
                 valid_words.add(''.join(search_candidate))
 
-            for l in copy(letters_remaining):
+            for l in set(letters_remaining):
                 if l in v.children:
                     search_candidate.append(l)
                     letters_remaining.remove(l)
